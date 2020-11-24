@@ -14,6 +14,7 @@ def detect_intent_texts(project_id, session_id, text, language_code):
     response = session_client.detect_intent(
         session=session, query_input=query_input)
 
+    response.query_result.intent.is_fallback = False
     return response.query_result.fulfillment_text
 
 
@@ -33,10 +34,10 @@ if __name__ == '__main__':
     user_chat_id = os.getenv('USER_CHAT_ID')
     google_application_credentials = os.getenv(
         'GOOGLE_APPLICATION_CREDENTIALS')
-    bot = Bot(token=tg_bot_token)
-    project_id = 'task3-dialog-flow'
+    project_id = os.getenv('PROJECT_ID')
     session_id = user_chat_id
     language_code = 'ru'
+    bot = Bot(token=tg_bot_token)
 
     updater = Updater(token=tg_bot_token)
     dispatcher = updater.dispatcher
