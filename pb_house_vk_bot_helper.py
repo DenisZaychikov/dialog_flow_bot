@@ -22,11 +22,13 @@ def detect_intent_texts(project_id, session_id, text, language_code):
 def echo(event, vk_api, language_code, project_id):
     text = event.text
     random_id = random.randint(1, 1000)
-    vk_api.messages.send(
-        user_id=event.user_id,
-        random_id=random_id,
-        message=detect_intent_texts(project_id, random_id, text, language_code)
-    )
+    message = detect_intent_texts(project_id, random_id, text, language_code)
+    if message:
+        vk_api.messages.send(
+            user_id=event.user_id,
+            random_id=random_id,
+            message=message
+        )
 
 
 if __name__ == "__main__":
