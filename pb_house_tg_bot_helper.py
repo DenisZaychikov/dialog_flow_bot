@@ -14,14 +14,13 @@ def detect_intent_texts(project_id, session_id, text, language_code):
     response = session_client.detect_intent(
         session=session, query_input=query_input)
 
-    response.query_result.intent.is_fallback = False
     return response.query_result.fulfillment_text
 
 
 def reply(bot, update):
     message = update.message.text
     if message == '/start':
-        text = 'Здраствуйте!'
+        text = 'Здравствуйте!'
     else:
         text = detect_intent_texts(project_id, session_id, message,
                                    language_code)
@@ -31,7 +30,7 @@ def reply(bot, update):
 if __name__ == '__main__':
     load_dotenv()
     tg_bot_token = os.getenv('TG_BOT_TOKEN')
-    user_chat_id = os.getenv('USER_CHAT_ID')
+    user_chat_id = os.getenv('TG_USER_CHAT_ID')
     google_application_credentials = os.getenv(
         'GOOGLE_APPLICATION_CREDENTIALS')
     project_id = os.getenv('PROJECT_ID')
