@@ -29,6 +29,7 @@ def reply(bot, update):
 
 if __name__ == '__main__':
     load_dotenv()
+    
     tg_bot_token = os.getenv('TG_BOT_TOKEN')
     user_chat_id = os.getenv('TG_USER_CHAT_ID')
     google_application_credentials = os.getenv(
