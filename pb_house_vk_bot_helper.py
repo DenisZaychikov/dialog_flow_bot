@@ -4,6 +4,26 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 import dialogflow_v2 as dialogflow
 from dotenv import load_dotenv
 import os
+import logging
+
+logger = logging.getLogger(__file__)
+
+
+class VkLogHandler(logging.Handler):
+
+    def __init__(self, event, random_id, vk_api):
+        super().__init__()
+        self.user_id = event.user_id
+        self.random_id = random_id
+        self.vk_api = vk_api
+
+    def emit(self, record):
+        msg_to_bot = self.format(record)
+        self.vk_api.messages.send(
+            user_id=event.user_id,
+            random_id=random_id,
+            message=msg_to_bot
+        )
 
 
 def detect_intent_texts(project_id, session_id, text, language_code):
@@ -19,16 +39,20 @@ def detect_intent_texts(project_id, session_id, text, language_code):
         return response.query_result.fulfillment_text
 
 
-def echo(event, vk_api, language_code, project_id):
+def echo(event, vk_api, language_code, project_id, random_id):
     text = event.text
-    random_id = random.randint(1, 1000)
-    message = detect_intent_texts(project_id, random_id, text, language_code)
-    if message:
-        vk_api.messages.send(
-            user_id=event.user_id,
-            random_id=random_id,
-            message=message
-        )
+    try:
+        message = detect_intent_texts(project_id, random_id, text,
+                                      language_code)
+    except Exception as err:
+        logger.error(err, exc_info=True)
+    else:
+        if message:
+            vk_api.messages.send(
+                user_id=event.user_id,
+                random_id=random_id,
+                message=message
+            )
 
 
 if __name__ == "__main__":
@@ -43,4 +67,7 @@ if __name__ == "__main__":
     longpoll = VkLongPoll(vk_session)
     for event in longpoll.listen():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-            echo(event, vk_api, language_code, project_id)
+            random_id = random.randint(1, 1000)
+            log_handler = VkLogHandler(event, random_id, vk_api)
+            logger.addHandler(log_handler)
+            echo(event, vk_api, language_code, project_id, random_id)
