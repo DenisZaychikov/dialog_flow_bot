@@ -66,7 +66,7 @@
    
    GOOGLE_CREDENTIALS=содержимое файла google-credentials.json
    
-   PROJECT_ID=имя вашего проекта в dialogflow
+   DIALOGFLOW_PROJECT_ID=имя вашего проекта в dialogflow
    
    VK_BOT_TOKEN=токен группы вконтакте
 
@@ -90,7 +90,7 @@ pip install -r requirements.txt
     ```
     GOOGLE_APPLICATION_CREDENTIALS=google-credentials.json
     GOOGLE_CREDENTIALS=содержимое файла google-credentials.json
-    PROJECT_ID=имя вашего проекта в dialogflow
+    DIALOGFLOW_PROJECT_ID=имя вашего проекта в dialogflow
     VK_BOT_TOKEN=токен группы вконтакте
     TG_BOT_TOKEN=токен телеграм-бота
     TG_USER_CHAT_ID=ваш chat_id в телеграм
