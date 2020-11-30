@@ -39,10 +39,10 @@ def detect_intent_texts(project_id, session_id, text, language_code):
         return response.query_result.fulfillment_text
 
 
-def echo(event, vk_api, language_code, project_id, random_id):
+def send_message(event, vk_api, language_code, dialogflow_project_id, random_id):
     text = event.text
     try:
-        message = detect_intent_texts(project_id, random_id, text,
+        message = detect_intent_texts(dialogflow_project_id, random_id, text,
                                       language_code)
     except Exception as err:
         logger.error(err, exc_info=True)
@@ -60,7 +60,7 @@ if __name__ == "__main__":
     google_application_credentials = os.getenv(
         'GOOGLE_APPLICATION_CREDENTIALS')
     vk_bot_token = os.getenv('VK_BOT_TOKEN')
-    project_id = os.getenv('PROJECT_ID')
+    dialogflow_project_id = os.getenv('DIALOGFLOW_PROJECT_ID')
     language_code = 'ru'
     vk_session = vk_api.VkApi(token=vk_bot_token)
     vk_api = vk_session.get_api()
@@ -70,4 +70,4 @@ if __name__ == "__main__":
             random_id = random.randint(1, 1000)
             log_handler = VkLogHandler(event, random_id, vk_api)
             logger.addHandler(log_handler)
-            echo(event, vk_api, language_code, project_id, random_id)
+            send_message(event, vk_api, language_code, dialogflow_project_id, random_id)

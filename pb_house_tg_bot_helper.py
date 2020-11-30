@@ -21,9 +21,9 @@ class TgLogHandler(logging.Handler):
                                  text=msg_to_bot)
 
 
-def detect_intent_texts(project_id, session_id, text, language_code):
+def detect_intent_texts(dialogflow_project_id, session_id, text, language_code):
     session_client = dialogflow.SessionsClient()
-    session = session_client.session_path(project_id, session_id)
+    session = session_client.session_path(dialogflow_project_id, session_id)
     text_input = dialogflow.types.TextInput(
         text=text, language_code=language_code)
     query_input = dialogflow.types.QueryInput(text=text_input)
@@ -44,7 +44,7 @@ def start(bot, update):
 def reply(bot, update):
     message = update.message.text
     try:
-        text = detect_intent_texts(project_id, session_id, message,
+        text = detect_intent_texts(dialogflow_project_id, session_id, message,
                                    language_code)
     except Exception as err:
         logger.error(err, exc_info=True)
@@ -58,7 +58,7 @@ if __name__ == '__main__':
     user_chat_id = os.getenv('TG_USER_CHAT_ID')
     google_application_credentials = os.getenv(
         'GOOGLE_APPLICATION_CREDENTIALS')
-    project_id = os.getenv('PROJECT_ID')
+    dialogflow_project_id = os.getenv('DIALOGFLOW_PROJECT_ID')
     session_id = user_chat_id
     language_code = 'ru'
     bot = Bot(token=tg_bot_token)
