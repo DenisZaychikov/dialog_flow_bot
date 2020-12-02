@@ -45,6 +45,7 @@ def error_handler(bot, update, error):
 
 
 def reply(bot, update):
+    session_id = f'tg-{user_chat_id}'
     message = update.message.text
     text = detect_intent_texts(dialogflow_project_id, session_id, message,
                                language_code)
@@ -56,11 +57,9 @@ if __name__ == '__main__':
     load_dotenv()
     tg_bot_token = os.getenv('TG_BOT_TOKEN')
     user_chat_id = os.getenv('TG_USER_CHAT_ID')
-    print(type(user_chat_id))
     google_application_credentials = os.getenv(
         'GOOGLE_APPLICATION_CREDENTIALS')
     dialogflow_project_id = os.getenv('DIALOGFLOW_PROJECT_ID')
-    session_id = f'tg-{user_chat_id}'
     language_code = 'ru'
     bot = Bot(token=tg_bot_token)
     log_handler = TgLogHandler(bot, user_chat_id)
