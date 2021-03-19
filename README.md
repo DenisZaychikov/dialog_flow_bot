@@ -104,7 +104,7 @@ pip install -r requirements.txt
 
 ### Цель проекта
 
-Код написан в образовательных целях на онлайн-курсе для веб-разработчиков 
+Код написан в образовательных целях. На онлайн-курсе для веб-разработчиков 
 [dvmn.org](https://dvmn.org/modules/chat-bots/lesson/support-bot/).
 
 [проект на DialogFlow]: https://cloud.google.com/dialogflow/docs/quick/setup/ 
